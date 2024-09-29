@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product</title>
+    <script>
+      function toggleNewCategoryInput() {
+        var selectElement = document.getElementById("id_category");
+        var newCategoryDiv = document.getElementById("new-category-div");
+        var selectedValue = selectElement.value;
+    
+        if (selectedValue === "new") {
+          // Show new category input field if "Create new category" is selected
+          newCategoryDiv.style.display = "block";
+        } else {
+          // Hide new category input field otherwise
+          newCategoryDiv.style.display = "none";
+        }
+      }
+    </script>
+
+    <!-- Load static files -->
+    
+    
+    <!-- Link to the CSS file -->
+    
+<style>
+      body {
+  font-family: Arial, sans-serif;
+  background-color: #084989;
+  margin: 0px;
+  padding: 0px;
+  /*  */
+}
+/* #f8f9fa */
+.container-add {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
+}
+</style>
+
+</head>
+{% load static %}
+<body>
+    <div class="container-add ">
+        <h1>Add New Product</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_name">Product Name:</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <div class="error">{{ form.name.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+              <label for="id_category">Category:</label>
+              <select id="id_category" class="form-control" name="category" onchange="toggleNewCategoryInput()">
+                <option value="">Select a category</option>
+                {% for category in form.fields.category.queryset %}
+                  <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+                <option value="new">Create new category</option>  <!-- Option for new category -->
+              </select>
+            </div>
+          
+            <div class="form-group" id="new-category-div" style="display: none;">  <!-- Initially hidden -->
+              <label for="id_new_category">New Category:</label>
+              {{ form.new_category }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_description">Description:</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="error">{{ form.description.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_price">Price:</label>
+                {{ form.price }}
+                {% if form.price.errors %}
+                    <div class="error">{{ form.price.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_stock">Stock:</label>
+                {{ form.stock }}
+                {% if form.stock.errors %}
+                    <div class="error">{{ form.stock.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_image">Image:</label>
+                {{ form.image }}
+                {% if form.image.errors %}
+                    <div class="error">{{ form.image.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit">Add Product</button>
+        </form>
+        <a href="{% url 'product_list' %}">Back to Product List</a>
+    </div>
+
+
+</body>
+</html>

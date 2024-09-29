@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load cart_filters %}
+{% block content %}
+<h1>Your Cart</h1>
+
+<div class="row">
+    {% if cart_items %}
+        {% for item in cart_items %}
+        <div class="col-md-4"> <!-- Adjust column size as needed -->
+          <div class="card mb-4">
+              <img src="{{ item.product.image.url }}" class="card-img-top" alt="{{ item.product.name }}" style="height: 200px; object-fit: cover;"> <!-- Product image -->
+              <div class="card-body">
+                  <h5 class="card-title">{{ item.product.name }}</h5>
+                  <p class="card-text">Quantity: {{ item.quantity }}</p>
+                  <p class="card-text">Price: ${{ item.product.price }}</p>
+                  <p class="card-text">Total: ${{ item.quantity|multiply:item.product.price }}</p> <!-- Assuming you have a custom template filter --> <!-- Assuming multiply filter is defined -->
+                        <a href="{% url 'product_detail' item.product.id %}" class="btn btn-primary">View Details</a>
+                        <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to remove this item?');">Remove from Cart</a>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}
+

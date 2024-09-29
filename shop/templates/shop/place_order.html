@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+<!-- <h1>Order {{ product.name }}</h1>
+<p>Total Price: ${{ product.price }}</p>
+<form method="POST">
+  {% csrf_token %}
+  <input type="number" name="quantity" min="1" max="{{ product.stock }}" value="1">
+  <button type="submit">Place Order</button>
+</form> -->
+
+
+
+
+{% block title %}Place Order{% endblock %}
+
+{% block content %}
+<h1>Place Your Order  {{ request.user.username }}</h1>
+
+{% if error_message %}
+            <div class="alert alert-danger">
+                {{ error_message }}
+            </div>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div>
+      <p><strong>Product:</strong> {{ product.name }}</p>
+      <p><strong>Price per unit:</strong> ₹<span id="unit-price">{{ product.price }}</span></p>
+    </div>
+    <!-- Quantity Input -->
+    <div class="mb-3">
+      <label for="quantity" class="form-label">Quantity:</label>
+      <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="100" onchange="calculateTotal()">
+  </div>
+
+    <!-- Total Price Display (calculated in the backend) -->
+    <div class="mb-3">
+        <label for="total_price" class="form-label">Total Price</label>
+        <input type="text" class="form-control" id="total_price" name="total_price" value="{{ product.price }}" readonly>
+    </div>
+
+    <!-- Payment Method -->
+    <div class="mb-3">
+        <label for="payment_method" class="form-label">Payment Method</label>
+        <select class="form-control" id="payment_method" name="payment_method" required>
+            <option value="credit_card">Credit Card</option>
+            <option value="paypal">PayPal</option>
+            <option value="cash_on_delivery">Cash on Delivery</option>
+        </select>
+    </div>
+
+    <!-- Shipping Address -->
+    <div class="mb-3">
+      <label for="shipping_address">Shipping Address:</label>
+      <textarea name="shipping_address" id="shipping_address" required></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Place Order</button>
+</form>
+<script>
+  function calculateTotal() {
+      var unitPrice = parseFloat(document.getElementById('unit-price').innerText);
+      var quantity = parseInt(document.getElementById('quantity').value);
+      var totalPrice = unitPrice * quantity;
+
+      // Update the total price input field
+      document.getElementById('total_price').value = totalPrice.toFixed(2);  
+  }
+</script>
+{% endblock %}

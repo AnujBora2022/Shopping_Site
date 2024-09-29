@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+  {% block title %}Orders{% endblock %}
+  {% block extra_head %}
+    <style>
+      /* Inline CSS for demonstration; consider moving to styles.css */
+
+      table {
+          width: 100%;
+          border-collapse: collapse; /* Remove double borders */
+          margin: 20px 0; /* Space above and below the table */
+      }
+
+      th, td {
+          padding: 15px; /* Space inside cells */
+          border: 1px solid #ccc; /* Border for cells */
+          text-align: left; /* Left-align text */
+      }
+
+      th {
+          background-color: #f2f2f2; /* Light background for headers */
+      }
+
+      tr:hover {
+          background-color: #f9f9f9; /* Highlight row on hover */
+      }
+
+      @media (max-width: 600px) {
+          table, thead, tbody, th, td, tr {
+              display: block; /* Stack elements on small screens */
+          }
+          td {
+              text-align: right; /* Align text to the right */
+              position: relative; /* Positioning for labels */
+              padding-left: 50%; /* Add padding for labels */
+          }
+          td:before {
+              content: attr(data-label); /* Use data-label for responsive design */
+              position: absolute;
+              left: 10px;
+              text-align: left; /* Align labels to the left */
+              font-weight: bold; /* Make labels bold */
+          }
+      }
+    </style>
+  {% endblock %}
+{% block content %}
+<h1>Order List for {{ request.user.username }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Payment Method</th>
+                <th>Shipping Address</th>
+                <th>Order Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.product.name }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.total_price }}</td>
+                <td>{{ order.payment_method }}</td>
+                <td>{{ order.shipping_address }}</td>
+                <td>{{ order.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'product_list' %}">Back to Products</a>
+
+
+{% endblock %}
