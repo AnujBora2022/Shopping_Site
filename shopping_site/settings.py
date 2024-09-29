@@ -44,31 +44,6 @@ INSTALLED_APPS = [
 
 
 
-
-# # Static files configuration
-# STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-# # Media files configuration (S3 bucket for media)
-# MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# MEDIA_ROOT = 'media/'
-
-# # Optional: Set cache control for the files
-# AWS_S3_OBJECT_PARAMETERS = {
-#     'CacheControl': 'max-age=86400',
-# }
-
-# # Optional: Set the ACL (Access Control List)
-# AWS_DEFAULT_ACL = 'public-read'
-
-# # Ensure the static and media files are served properly
-# AWS_QUERYSTRING_AUTH = False
-
-# Use S3 for static and media files
-# Media files settings
-
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
