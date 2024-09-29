@@ -42,11 +42,7 @@ INSTALLED_APPS = [
     "storages",
 ]
 
-# AWS_STORAGE_BUCKET_NAME = 'shopping-site-anuj '
-# AWS_ACCESS_KEY_ID = 'AKIA3FRRJGZKRAQ47HBR'
-# AWS_SECRET_ACCESS_KEY = '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'
-# AWS_S3_REGION_NAME = 'ap-south-1'
-# AWS_S3_CUSTOM_DOMAIN = f'shopping-site-anuj.s3.amazonaws.com'
+
 
 
 # # Static files configuration
