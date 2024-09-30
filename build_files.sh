@@ -1,6 +1,6 @@
 echo 'Building the project...'
-pip install setuptools
-pip -m pip install -r requirements.txt
+python3.12 install setuptools
+python3.12 install -r requirements.txt
 
 
 # Run Django migrations (optional but recommended)
