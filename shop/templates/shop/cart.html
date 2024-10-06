@@ -8,7 +8,12 @@
         {% for item in cart_items %}
         <div class="col-md-4"> <!-- Adjust column size as needed -->
           <div class="card mb-4">
-              <img src="{{ item.product.image.url }}" class="card-img-top" alt="{{ item.product.name }}" style="height: 200px; object-fit: cover;"> <!-- Product image -->
+              <!-- <img src="{{ item.product.image.url }}" class="card-img-top" alt="{{ item.product.name }}" style="height: 200px; object-fit: cover;"> Product image -->
+              {% if item.image %}
+              <img src="{{ MEDIA_URL }}{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}" style="height: 200px; object-fit: cover;">
+          {% else %}
+              <p>No image available</p>
+          {% endif %}
               <div class="card-body">
                   <h5 class="card-title">{{ item.product.name }}</h5>
                   <p class="card-text">Quantity: {{ item.quantity }}</p>
