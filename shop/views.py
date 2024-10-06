@@ -143,10 +143,11 @@ def upload_image_to_supabase(image_file):
         print("No image file provided")
         return None
 
-
+import logging
 @staff_member_required
 def add_product(request):
     if request.method == 'POST':
+        logging.info("POST request received")
         form = ProductForm(request.POST, request.FILES)  # Handle both form data and file upload
         if form.is_valid():
             try:
