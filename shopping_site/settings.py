@@ -42,6 +42,22 @@ INSTALLED_APPS = [
     "storages",
 ]
 
+from dotenv import load_dotenv
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# Supabase credentials (replace with actual credentials from Supabase)
+AWS_ACCESS_KEY_ID = os.getenv('SUPABASE_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = os.getenv('SUPABASE_SECRET_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('SUPABASE_BUCKET_NAME')
+AWS_S3_REGION_NAME = 'ap-south-1'  # e.g., 'us-west-1'
+AWS_S3_ENDPOINT_URL = f"https://{os.getenv('SUPABASE_PROJECT_ID')}.supabase.co/storage/v1"  # Supabase Endpoint URL
+
+# Optional: Set file URLs to use a secure connection
+AWS_S3_SECURE_URLS = True
+AWS_QUERYSTRING_AUTH = False
+
+# Define the media URL to access the uploaded files
+MEDIA_URL = f"https://{os.getenv('SUPABASE_PROJECT_ID')}.supabase.co/storage/v1/object/public/{os.getenv('SUPABASE_BUCKET_NAME')}/"
 
 
 MIDDLEWARE = [
