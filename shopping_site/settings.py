@@ -56,7 +56,7 @@ SUPABASE_PROJECT_ID = os.getenv('SUPABASE_PROJECT_ID')
 AWS_S3_ENDPOINT_URL = f"https://SUPABASE_PROJECT_ID.supabase.co/storage/v1"  # Supabase Endpoint URL
 
 SUPABASE_URL = os.getenv('SUPABASE_URL')
-SUPABASE_SERVICE_ROLE_KEY = os.getenv('SUPABASE_SECRET_KEY')
+SUPABASE_SERVICE_ROLE_KEY = os.getenv('SUPABASE_SERVICE_ROLE_KEY')
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 # Optional: Set file URLs to use a secure connection
