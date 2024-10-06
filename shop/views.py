@@ -125,12 +125,40 @@ def order_success(request):
 def is_superuser(user):
     return user.is_superuser
 
+import supabase
+
+def upload_image_to_supabase(image_file, image_name):
+    supabase_url = 'https://your-instance.supabase.co'
+    supabase_key = 'your-service-role-key'
+    supabase_client = supabase.create_client(supabase_url, supabase_key)
+
+    # Upload the file
+    response = supabase_client.storage.from_('your-bucket-name').upload(f"products/{image_name}", image_file)
+
+    if response.status_code == 201:  # Check if the upload was successful
+        return response.json()['publicURL']
+    else:
+        return None  # Upload failed
+
 @staff_member_required
 def add_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)  # Handle both form data and file upload
         if form.is_valid():
-            form.save()  # Save the new product to the database
+            product = form.save(commit=False)  # Save the product without committing to DB yet
+
+            # Handle image upload to Supabase
+            image_file = request.FILES.get('image')
+            if image_file:
+                image_name = image_file.name
+                public_url = upload_image_to_supabase(image_file, image_name)  # Upload image and get public URL
+                if public_url:
+                    product.image_url = public_url  # Set the public URL for the image
+                else:
+                    # Handle error: image upload failed
+                    print("Failed to upload image")
+
+            product.save() 
             return redirect('product_list')
     else:
         form = ProductForm()
