@@ -149,18 +149,20 @@ def add_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)  # Handle both form data and file upload
         if form.is_valid():
-            # Attempt to upload the image to Supabase
-            image_url = upload_image_to_supabase(form.cleaned_data['image'])  # Only one argument
-            if not image_url:
-                # Handle the case where the image upload failed
-                form.add_error('image', 'Failed to upload image to Supabase.')
-                return render(request, 'shop/add_product.html', {'form': form})
-            
-            # Create the product object and save it
-            product = form.save(commit=False)
-            product.image = image_url  # Save the image URL
-            product.save()  # Save the new product to the database
-            return redirect('product_list')
+            try:
+                image_file = form.cleaned_data['image']  # Get the image file
+                image_url = upload_image_to_supabase(image_file)  # Upload the image
+                if image_url is None:
+                    form.add_error('image', 'Image upload failed.')  # Add an error if the upload fails
+                    return render(request, 'shop/add_product.html', {'form': form})
+
+                product = form.save(commit=False)  # Create the product instance
+                product.image = image_url  # Assign the uploaded image URL
+                product.save()  # Save the product
+                return redirect('product_list')  # Redirect after successful addition
+            except AttributeError as e:
+                print(f"AttributeError: {e}")
+                form.add_error(None, 'There was a problem with the uploaded image.')
     else:
         form = ProductForm()
     return render(request, 'shop/add_product.html', {'form': form})
