@@ -127,18 +127,22 @@ def is_superuser(user):
 
 import supabase
 
-def upload_image_to_supabase(image_file, image_name):
-    supabase_url = 'https://your-instance.supabase.co'
-    supabase_key = 'your-service-role-key'
-    supabase_client = supabase.create_client(supabase_url, supabase_key)
-
-    # Upload the file
-    response = supabase_client.storage.from_('your-bucket-name').upload(f"products/{image_name}", image_file)
-
-    if response.status_code == 201:  # Check if the upload was successful
-        return response.json()['publicURL']
+def upload_image_to_supabase(image_file):
+    if image_file:  # Check if the image_file is valid
+        # Upload the image
+        response = supabase.storage.from_('imagebucket-shopping').upload(f'products/{image_file.name}', image_file)
+        
+        if response['status_code'] == 200:
+            # Return the public URL of the uploaded image
+            public_url = supabase.storage.from_('imagebucket-shopping').get_public_url(f'products/{image_file.name}')
+            return public_url['publicURL']  # Return the public URL
+        else:
+            print(f"Error uploading image: {response['message']}")
+            return None
     else:
-        return None  # Upload failed
+        print("No image file provided")
+        return None
+
 
 @staff_member_required
 def add_product(request):
