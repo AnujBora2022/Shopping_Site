@@ -57,7 +57,7 @@ AWS_S3_SECURE_URLS = True
 AWS_QUERYSTRING_AUTH = False
 
 # Define the media URL to access the uploaded files
-MEDIA_URL = "https://iyhzdzkgxocaxocluylw.supabase.co/storage/v1/s3"
+MEDIA_URL = f"https://{os.getenv('SUPABASE_PROJECT_ID')}.supabase.co/storage/v1/object/public/{AWS_STORAGE_BUCKET_NAME}/products/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Local storage for development
 
 
