@@ -60,12 +60,12 @@
     <div class="product-row">
         {% for product in trending_products %}
         <div class="product-card">
-            <!-- <img src="{{ product.image.url }}" alt="{{ product.name }}"> -->
-            {% if item.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <!-- {% if item.image %}
                 <img src="{{ MEDIA_URL }}{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}" style="height: 200px; object-fit: cover;">
             {% else %}
                 <p>No image available</p>
-            {% endif %}
+            {% endif %} -->
             <h3>{{ product.name }}</h3>
             <p>Price: {{ product.price }}</p>
             <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>

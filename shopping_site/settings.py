@@ -58,6 +58,7 @@ AWS_QUERYSTRING_AUTH = False
 
 # Define the media URL to access the uploaded files
 MEDIA_URL = f"https://{os.getenv('SUPABASE_PROJECT_ID')}.supabase.co/storage/v1/object/public/{os.getenv('SUPABASE_BUCKET_NAME')}/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Local storage for development
 
 
 MIDDLEWARE = [
